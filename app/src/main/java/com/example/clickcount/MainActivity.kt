@@ -12,7 +12,6 @@ public class MainActivity() : AppCompatActivity() {
     var tvButtonCount: TextView? = null
     var tvBackgroundCount: TextView? = null
     var buttonClick: Button? = null
-
     var intButtonClickCount: Int = 0
     var strButtonClickCount: String = ""
     var intBackgroundCount: Int = 0
