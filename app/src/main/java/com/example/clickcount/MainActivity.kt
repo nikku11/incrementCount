@@ -5,12 +5,9 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import java.lang.NumberFormatException
 
 public class MainActivity() : AppCompatActivity() {
-
     // Variables
     var tvButtonCount: TextView? = null
     var tvBackgroundCount: TextView? = null
