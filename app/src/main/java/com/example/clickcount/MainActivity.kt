@@ -11,7 +11,7 @@ public class MainActivity() : AppCompatActivity() {
     // Variables
     var tvButtonCount: TextView? = null
     var tvBackgroundCount: TextView? = null
-    var buttonClick: Button? = null
+    var bClick: Button? = null
 
     var intButtonClickCount: Int = 0
     var strButtonClickCount: String = ""
@@ -23,32 +23,30 @@ public class MainActivity() : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         init()
-//        checkOrientation()
-
     }
 
     override fun onStart() {
         super.onStart()
-//        checkOrientation()
     }
 
     private fun init() {
         sharedPreference = SharedPreferenceHelper(this)
         tvButtonCount = findViewById(R.id.a_main_tv_button_counter) as TextView
         tvBackgroundCount = findViewById(R.id.a_main_tv_background_counter) as TextView
-        buttonClick = findViewById(R.id.a_main_b_click_counter) as Button
-        buttonClick!!.setOnClickListener() {
-            intButtonClickCount = ++intButtonClickCount
-            strButtonClickCount = intButtonClickCount.toString()
-            tvButtonCount!!.setText(strButtonClickCount)
+        bClick = findViewById(R.id.a_main_b_click_counter) as Button
+        if (bClick != null) {
+            bClick?.setOnClickListener() {
+                intButtonClickCount = ++intButtonClickCount
+                strButtonClickCount = intButtonClickCount.toString()
+                tvButtonCount?.setText(strButtonClickCount)
+            }
         }
-//        checkOrientation()
         setButtonValues()
         setBackgroundValues()
     }
 
     private fun setButtonValues() {
-        if (sharedPreference!!.getButtonCount(sharedPreference!!.BUTTON_KEY) != null) {
+        if (sharedPreference?.getButtonCount(sharedPreference!!.BUTTON_KEY) != null) {
             strButtonClickCount = sharedPreference!!.getButtonCount(sharedPreference!!.BUTTON_KEY).toString()
             intButtonClickCount = strButtonClickCount.toInt()
             tvButtonCount!!.setText(strButtonClickCount)
@@ -59,69 +57,56 @@ public class MainActivity() : AppCompatActivity() {
         if (sharedPreference?.BACKGROUND_KEY?.let { sharedPreference?.getBackgroundCount(it) } != null) {
             strBackgroundCount = sharedPreference!!.getBackgroundCount(sharedPreference!!.BACKGROUND_KEY).toString()
             intBackgroundCount = strBackgroundCount.toInt()
-            tvBackgroundCount!!.setText(strBackgroundCount)
+            tvBackgroundCount?.setText(strBackgroundCount)
         }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            setContentView(R.layout.layout_land)
-            init()
-            tvButtonCount!!.setText(strButtonClickCount)
-            tvBackgroundCount!!.setText(strBackgroundCount)
+            inLandscape()
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            setContentView(R.layout.activity_main)
-            init()
-            tvButtonCount!!.setText(strButtonClickCount)
-            tvBackgroundCount!!.setText(strBackgroundCount)
+            inPotrait()
         }
     }
-//    fun checkOrientation(){
-//     val orientation = resources.configuration.orientation
-//    if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//        setContentView(R.layout.layout_land)
-//            init()
-//            tvButtonCount!!.setText(strButtonClickCount)
-//            tvBackgroundCount!!.setText(strBackgroundCount)
-//    } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-//        setContentView(R.layout.activity_main)
-//            init()
-//            tvButtonCount!!.setText(strButtonClickCount)
-//            tvBackgroundCount!!.setText(strBackgroundCount)
-//    }
-//
-//
-//}
 
+    private fun inPotrait() {
+        setContentView(R.layout.activity_main)
+        init()
+        tvButtonCount?.setText(strButtonClickCount)
+        tvBackgroundCount?.setText(strBackgroundCount)
+    }
+
+    private fun inLandscape() {
+        setContentView(R.layout.layout_land)
+        init()
+        tvButtonCount?.setText(strButtonClickCount)
+        tvBackgroundCount?.setText(strBackgroundCount)
+    }
 
     override fun onResume() {
         super.onResume()
-//        checkOrientation()
         setButtonValues()
         setBackgroundValues()
     }
 
     override fun onPause() {
         super.onPause()
-//        checkOrientation()
         sharedPreference!!.setButtonCount(sharedPreference!!.BUTTON_KEY, strButtonClickCount )
         intBackgroundCount = ++intBackgroundCount
         strBackgroundCount = intBackgroundCount.toString()
-        tvBackgroundCount!!.setText(strBackgroundCount)
-        sharedPreference!!.setBackgroundCount(sharedPreference!!.BACKGROUND_KEY, strBackgroundCount)
+        tvBackgroundCount?.setText(strBackgroundCount)
+        sharedPreference?.setBackgroundCount(sharedPreference!!.BACKGROUND_KEY, strBackgroundCount)
     }
 
     override fun onStop() {
         super.onStop()
-//        checkOrientation()
-        sharedPreference!!.setButtonCount(sharedPreference!!.BUTTON_KEY, strButtonClickCount )
-        sharedPreference!!.setBackgroundCount(sharedPreference!!.BACKGROUND_KEY, strBackgroundCount )
+        sharedPreference?.setButtonCount(sharedPreference!!.BUTTON_KEY, strButtonClickCount )
+        sharedPreference?.setBackgroundCount(sharedPreference!!.BACKGROUND_KEY, strBackgroundCount )
     }
 
     override fun onDestroy() {
         super.onDestroy()
-//        checkOrientation()
     }
 }
 

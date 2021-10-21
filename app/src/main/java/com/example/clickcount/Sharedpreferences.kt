@@ -3,8 +3,9 @@ import android.content.Context
 import android.content.SharedPreferences
 
 open class SharedPreferenceHelper( context: Context) {
-    private val PREFS_NAME = "kotlincodes"
-    val sharedPref: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    private val PREFERENCE_NAME = "kotlincodes"
+    val sharedPref: SharedPreferences =
+        context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
     val BUTTON_KEY = "button"
     val BACKGROUND_KEY = "background"
 
@@ -28,12 +29,6 @@ open class SharedPreferenceHelper( context: Context) {
         return sharedPref.getString(key, null)
     }
 
-    fun clearSharedPreference() {
-        val editor: SharedPreferences.Editor = sharedPref.edit()
-        editor.clear()
-        editor.commit()
-    }
 }
-
 
 
