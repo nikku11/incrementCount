@@ -1,6 +1,6 @@
 package com.example.clickcount
 
-import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Button
@@ -12,48 +12,54 @@ public class MainActivity() : AppCompatActivity() {
     var tvButtonCount: TextView? = null
     var tvBackgroundCount: TextView? = null
     var buttonClick: Button? = null
+
     var intButtonClickCount: Int = 0
     var strButtonClickCount: String = ""
     var intBackgroundCount: Int = 0
     var strBackgroundCount: String = ""
+    var sharedPreference:SharedPreferenceHelper? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         init()
+//        checkOrientation()
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+//        checkOrientation()
     }
 
     private fun init() {
-        tvButtonCount = findViewById(R.id.tv_button_count) as TextView
-        tvBackgroundCount = findViewById(R.id.tv_background_count) as TextView
-        buttonClick = findViewById(R.id.btn) as Button
-
+        sharedPreference = SharedPreferenceHelper(this)
+        tvButtonCount = findViewById(R.id.a_main_tv_button_counter) as TextView
+        tvBackgroundCount = findViewById(R.id.a_main_tv_background_counter) as TextView
+        buttonClick = findViewById(R.id.a_main_b_click_counter) as Button
+        buttonClick!!.setOnClickListener() {
+            intButtonClickCount = ++intButtonClickCount
+            strButtonClickCount = intButtonClickCount.toString()
+            tvButtonCount!!.setText(strButtonClickCount)
+        }
+//        checkOrientation()
         setButtonValues()
         setBackgroundValues()
-        onClick()
     }
 
     private fun setButtonValues() {
-        if (getSharedPreference("BUTTON", "button") != "button") {
-            strButtonClickCount = getSharedPreference("BUTTON", "button")
+        if (sharedPreference!!.getButtonCount(sharedPreference!!.BUTTON_KEY) != null) {
+            strButtonClickCount = sharedPreference!!.getButtonCount(sharedPreference!!.BUTTON_KEY).toString()
             intButtonClickCount = strButtonClickCount.toInt()
             tvButtonCount!!.setText(strButtonClickCount)
         }
     }
 
     private fun setBackgroundValues() {
-        if ( getSharedPreference("BACKGROUND", "background") != "background") {
-            strBackgroundCount = getSharedPreference("BACKGROUND", "background")
+        if (sharedPreference?.BACKGROUND_KEY?.let { sharedPreference?.getBackgroundCount(it) } != null) {
+            strBackgroundCount = sharedPreference!!.getBackgroundCount(sharedPreference!!.BACKGROUND_KEY).toString()
             intBackgroundCount = strBackgroundCount.toInt()
             tvBackgroundCount!!.setText(strBackgroundCount)
-        }
-    }
-
-    private fun onClick() {
-        buttonClick?.setOnClickListener() {
-            intButtonClickCount = ++ intButtonClickCount
-            strButtonClickCount = intButtonClickCount.toString()
-            tvButtonCount!!.setText(strButtonClickCount)
         }
     }
 
@@ -62,46 +68,61 @@ public class MainActivity() : AppCompatActivity() {
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             setContentView(R.layout.layout_land)
             init()
-            tvButtonCount?.setText(strButtonClickCount)
-            tvBackgroundCount?.setText(strBackgroundCount)
+            tvButtonCount!!.setText(strButtonClickCount)
+            tvBackgroundCount!!.setText(strBackgroundCount)
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             setContentView(R.layout.activity_main)
             init()
-            tvButtonCount?.setText(strButtonClickCount)
-            tvBackgroundCount?.setText(strBackgroundCount)
+            tvButtonCount!!.setText(strButtonClickCount)
+            tvBackgroundCount!!.setText(strBackgroundCount)
         }
     }
+//    fun checkOrientation(){
+//     val orientation = resources.configuration.orientation
+//    if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//        setContentView(R.layout.layout_land)
+//            init()
+//            tvButtonCount!!.setText(strButtonClickCount)
+//            tvBackgroundCount!!.setText(strBackgroundCount)
+//    } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+//        setContentView(R.layout.activity_main)
+//            init()
+//            tvButtonCount!!.setText(strButtonClickCount)
+//            tvBackgroundCount!!.setText(strBackgroundCount)
+//    }
+//
+//
+//}
+
 
     override fun onResume() {
         super.onResume()
+//        checkOrientation()
         setButtonValues()
         setBackgroundValues()
     }
 
     override fun onPause() {
         super.onPause()
-        setSharedPreference("BUTTON", "button", strButtonClickCount)
+//        checkOrientation()
+        sharedPreference!!.setButtonCount(sharedPreference!!.BUTTON_KEY, strButtonClickCount )
         intBackgroundCount = ++intBackgroundCount
         strBackgroundCount = intBackgroundCount.toString()
         tvBackgroundCount!!.setText(strBackgroundCount)
-        setSharedPreference("BACKGROUND", "background", strBackgroundCount)
+        sharedPreference!!.setBackgroundCount(sharedPreference!!.BACKGROUND_KEY, strBackgroundCount)
     }
 
     override fun onStop() {
         super.onStop()
-        setSharedPreference("BUTTON", "button", strButtonClickCount)
-        setSharedPreference("BACKGROUND", "background", strBackgroundCount)
+//        checkOrientation()
+        sharedPreference!!.setButtonCount(sharedPreference!!.BUTTON_KEY, strButtonClickCount )
+        sharedPreference!!.setBackgroundCount(sharedPreference!!.BACKGROUND_KEY, strBackgroundCount )
     }
 
-
-    private fun getSharedPreference(prefsName: String, key: String): String {
-        getSharedPreferences(prefsName, Context.MODE_PRIVATE)
-            ?.getString(key, "0")?.let { return it }
-        return "Preference doesn't exist."
-    }
-
-    private fun setSharedPreference(prefsName: String, key: String, value: String?) {
-        getSharedPreferences(prefsName, Context.MODE_PRIVATE)
-            .edit().apply { putString(key, value); apply() }
+    override fun onDestroy() {
+        super.onDestroy()
+//        checkOrientation()
     }
 }
+
+

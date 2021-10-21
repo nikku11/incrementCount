@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/a_tv_background_count"
+        android:id="@+id/a_main_background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Background Count: "
@@ -20,7 +20,7 @@
         app:layout_constraintVertical_bias="0.198" />
 
     <TextView
-        android:id="@+id/a_tv_button_count"
+        android:id="@+id/a_main_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Button Count: "
@@ -33,7 +33,7 @@
         app:layout_constraintVertical_bias="0.342" />
 
     <Button
-        android:id="@+id/btn"
+        android:id="@+id/a_main_b_click_counter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Click"
@@ -45,7 +45,7 @@
         app:layout_constraintVertical_bias="0.663" />
 
     <TextView
-        android:id="@+id/tv_button_count"
+        android:id="@+id/a_main_tv_button_counter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -60,7 +60,7 @@
         app:layout_constraintVertical_bias="0.372" />
 
     <TextView
-        android:id="@+id/tv_background_count"
+        android:id="@+id/a_main_tv_background_counter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
