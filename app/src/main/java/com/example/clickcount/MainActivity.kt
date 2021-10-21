@@ -1,6 +1,5 @@
 package com.example.clickcount
 
-import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Button
@@ -12,7 +11,6 @@ public class MainActivity() : AppCompatActivity() {
     var tvButtonCount: TextView? = null
     var tvBackgroundCount: TextView? = null
     var bClick: Button? = null
-
     var intButtonClickCount: Int = 0
     var strButtonClickCount: String = ""
     var intBackgroundCount: Int = 0
@@ -23,10 +21,6 @@ public class MainActivity() : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         init()
-    }
-
-    override fun onStart() {
-        super.onStart()
     }
 
     private fun init() {
@@ -103,10 +97,6 @@ public class MainActivity() : AppCompatActivity() {
         super.onStop()
         sharedPreference?.setButtonCount(sharedPreference!!.BUTTON_KEY, strButtonClickCount )
         sharedPreference?.setBackgroundCount(sharedPreference!!.BACKGROUND_KEY, strBackgroundCount )
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 }
 
